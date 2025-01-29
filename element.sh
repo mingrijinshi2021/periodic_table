@@ -20,10 +20,10 @@ QUERY() {
         else
             NAME=$($PSQL -c "SELECT name FROM elements WHERE atomic_number=$ATOMIC_NUMBER")
             SYMBOL=$($PSQL -c "SELECT symbol FROM elements WHERE atomic_number=$ATOMIC_NUMBER")
-            TYPE=$($PSQL -c "SELECT type FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
-            ATOMIC_MASS=$($PSQL -c "SELECT atomic_mass FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
-            MELTING_POINT_CELSIUS=$($PSQL -c "SELECT melting_point_celsius FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
-            BOILING_POINT_CELSIUS=$($PSQL -c "SELECT boiling_point_celsius FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
+            TYPE=$($PSQL -c "SELECT type FROM properties JOIN types ON properties.type_id = types.type_id WHERE properties.atomic_number=$ATOMIC_NUMBER")
+            ATOMIC_MASS=$($PSQL -c "SELECT atomic_mass FROM properties JOIN types ON properties.type_id = types.type_id WHERE properties.atomic_number=$ATOMIC_NUMBER")
+            MELTING_POINT_CELSIUS=$($PSQL -c "SELECT melting_point_celsius FROM properties JOIN types ON properties.type_id = types.type_id WHERE properties.atomic_number=$ATOMIC_NUMBER")
+            BOILING_POINT_CELSIUS=$($PSQL -c "SELECT boiling_point_celsius FROM properties JOIN types ON properties.type_id = types.type_id WHERE properties.atomic_number=$ATOMIC_NUMBER")
             echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
         fi
     else
